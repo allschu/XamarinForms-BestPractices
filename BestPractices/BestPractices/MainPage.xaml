@@ -3,9 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:app="clr-namespace:BestPractices"
              BindingContext="{Static app:ViewModelLocator.TrendingMoviesViewModel}"
+             Title="TrendingMovies"
              x:Class="BestPractices.MainPage">
     <StackLayout>
-
+        <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title">
+            Trending Movies
+        </Label>
+        <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
+        <ListView ItemsSource="{Binding MovieList}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding ImagePath}"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                           Aspect="AspectFit" />
+                            <Label Grid.Column="1"
+                           Text="{Binding Title}"
+                                   FontSize="Large"
+                           FontAttributes="Bold" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
-
 </ContentPage>

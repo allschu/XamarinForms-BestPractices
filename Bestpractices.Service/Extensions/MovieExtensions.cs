@@ -11,7 +11,7 @@ namespace Bestpractices.Service.Extensions
     {
         public static Movie ToMovie(this MovieDetailDTO movieDetailDTO)
         {
-            return new Movie(movieDetailDTO.Title, movieDetailDTO.Tagline, movieDetailDTO.Poster_path);
+            return new Movie(movieDetailDTO.Title, movieDetailDTO.Tagline, "https://image.tmdb.org/t/p/w500" + movieDetailDTO.Poster_path);
         }
 
         public static IEnumerable<Movie> ToMovieList(this MovieDetailResultListDTO movieDetailResultListDTO)

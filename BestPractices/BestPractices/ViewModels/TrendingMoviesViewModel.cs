@@ -1,6 +1,7 @@
 ﻿using Bestpractices.Service.Interfaces;
 using BestPractices.Logging;
 using BestPractices.Models;
+using BestPractices.Models.Extensions;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,8 @@ namespace BestPractices.ViewModels
             _logger.Information("Screen loads");
 
             var movies = await _movieService.GetTrendingMovies();
+
+            MovieList = new ObservableCollection<MovieList>(movies.ToModel());
         }
     }
 }
