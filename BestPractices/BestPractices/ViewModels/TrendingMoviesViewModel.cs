@@ -34,7 +34,7 @@ namespace BestPractices.ViewModels
         {
             _logger.Information("Screen loads");
 
-            
+            var movies = await _movieService.GetTrendingMovies();
         }
     }
 }

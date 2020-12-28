@@ -11,12 +11,13 @@ namespace BestPractices.Logging
         public LoggerAgent()
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.AppCenterSink(
-                    new Serilog.Core.LoggingLevelSwitch(
-                        Serilog.Events.LogEventLevel.Debug),
-                        Serilog.Events.LogEventLevel.Debug,
-                        AppCenterTarget.ExceptionsAsCrashesAndEvents,
-                        APP_CENTER_SECRET)
+                .WriteTo.File("log.txt")
+                //.WriteTo.AppCenterSink(
+                 //   new Serilog.Core.LoggingLevelSwitch(
+                   //     Serilog.Events.LogEventLevel.Debug),
+                   //     Serilog.Events.LogEventLevel.Debug,
+                   //     AppCenterTarget.ExceptionsAsCrashesAndEvents,
+                  //      APP_CENTER_SECRET)
                 .CreateLogger();
         }
         public void Debug(string debugInformation)
