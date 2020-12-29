@@ -1,16 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:BestPractices.Behaviors"
+             xmlns:c="clr-namespace:BestPractices.Converters"
              xmlns:app="clr-namespace:BestPractices"
              BindingContext="{Static app:ViewModelLocator.TrendingMoviesViewModel}"
-             Title="TrendingMovies"
              x:Class="BestPractices.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <c:ItemTappedEventArgsConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>
         <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title">
             Trending Movies
         </Label>
         <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
-        <ListView ItemsSource="{Binding MovieList}" HasUnevenRows="True">
+        <ListView ItemsSource="{Binding MovieList}"  HasUnevenRows="True">
+            <ListView.Behaviors>
+                <b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ItemClickedCommand}" Converter="{StaticResource ItemTappedConverter}"/>
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

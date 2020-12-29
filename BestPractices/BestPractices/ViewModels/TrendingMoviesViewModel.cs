@@ -3,6 +3,7 @@ using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,8 @@ namespace BestPractices.ViewModels
         private readonly IMovieService _movieService;
         private readonly ILoggerAgent _logger;
 
+        public RelayCommand<MovieList> ItemClickedCommand { set; get; }
+
         private ObservableCollection<MovieList> _movieList;
         public ObservableCollection<MovieList> MovieList
         {
@@ -28,6 +31,8 @@ namespace BestPractices.ViewModels
             _movieService = movieService;
             _logger = logger;
 
+            ItemClickedCommand = new RelayCommand<MovieList>(async args => await NavigateToMovieDetails(args));
+
             Task.Run(async () => await LoadView()); ;
         }
 
@@ -38,6 +43,11 @@ namespace BestPractices.ViewModels
             var movies = await _movieService.GetTrendingMovies();
 
             MovieList = new ObservableCollection<MovieList>(movies.ToModel());
+        }
+
+        private async Task NavigateToMovieDetails(MovieList args)
+        {
+
         }
     }
 }

@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace BestPractices.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TrendingMoviesView : ContentView
+    public partial class DetailMoviePage : ContentPage
     {
-        public TrendingMoviesView()
+        public DetailMoviePage()
         {
             InitializeComponent();
         }
