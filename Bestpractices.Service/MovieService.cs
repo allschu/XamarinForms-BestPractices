@@ -22,10 +22,39 @@ namespace Bestpractices.Service
 
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://moviefunctions-allschu.azurewebsites.net/api/")
+                BaseAddress = new Uri(Constants.AZURE_FUNC_MOVIE_API)
             };
         }
 
+        public async Task<MovieDetail> GetMovie(int id)
+        {
+            if (id == 0)
+                throw new ArgumentNullException(nameof(id));
+
+            _loggerAgent.Information($"Call movie with id: {id}");
+
+            var response = await _httpClient.GetAsync($"MovieDetail?code=jEpGNqiIn9OlAcsNd5gNj2vfAoyqxfKOgt8ZxFqmPhrJJnaPh5vdSQ==&Id={id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var movie = JsonConvert.DeserializeObject<MovieDetailDTO>(content);
+
+                if (movie == null)
+                {
+                    _loggerAgent.Error($"MovieService: GetMovie with id {id} deserialize failed");
+                    throw new InvalidCastException(nameof(movie));
+                }
+
+                return movie.ToMovieDetail();
+            }
+            else
+            {
+                _loggerAgent.Error($"MovieService: GetMovie called with id {id} failed. Statuscode: {response.StatusCode}");
+                throw new InvalidOperationException();
+            }
+        }
 
         public async Task<IEnumerable<Movie>> GetTrendingMovies()
         {
@@ -45,6 +74,7 @@ namespace Bestpractices.Service
             }
             else
             {
+                _loggerAgent.Error($"MovieService: GetTrendingMovies failed. Statuscode: {response.StatusCode}");
                 throw new InvalidOperationException();
             }
         }

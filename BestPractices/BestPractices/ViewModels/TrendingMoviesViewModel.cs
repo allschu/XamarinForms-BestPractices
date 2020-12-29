@@ -4,10 +4,7 @@ using BestPractices.Models;
 using BestPractices.Models.Extensions;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BestPractices.ViewModels
@@ -45,9 +42,13 @@ namespace BestPractices.ViewModels
             MovieList = new ObservableCollection<MovieList>(movies.ToModel());
         }
 
-        private async Task NavigateToMovieDetails(MovieList args)
+        private async Task NavigateToMovieDetails(MovieList selectedMovie)
         {
+            if (selectedMovie != null)
+            {
+                var movie = await _movieService.GetMovie(selectedMovie.Id);
 
+            } 
         }
     }
 }
