@@ -2,12 +2,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BestPractices.Behaviors"
+             xmlns:c="clr-namespace:BestPractices.Converters"
+             xmlns:app="clr-namespace:BestPractices"
+             BindingContext="{Static app:ViewModelLocator.TrendingMoviesViewModel}"
              x:Class="BestPractices.Views.TrendingMoviesPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <c:ItemTappedEventArgsConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title">
+                Trending Movies
+            </Label>
+            <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
+            <ListView ItemsSource="{Binding MovieList}"  HasUnevenRows="True">
+                <ListView.Behaviors>
+                    <b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ItemClickedCommand}" Converter="{StaticResource ItemTappedConverter}"/>
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding ImagePath}"
+                                   HeightRequest="100"
+                                   WidthRequest="100"
+                           Aspect="AspectFit" />
+                                <Label Grid.Column="1"
+                           Text="{Binding Title}"
+                                   FontSize="Large"
+                           FontAttributes="Bold" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -15,9 +15,11 @@ namespace BestPractices
         {
             Locator.Register<TrendingMoviesViewModel>();
             Locator.Register<DetailMovieViewModel>();
+            Locator.Register<SearchViewModel>();
         }
 
         public static TrendingMoviesViewModel TrendingMoviesViewModel => Locator.GetInstance<TrendingMoviesViewModel>();
         public static DetailMovieViewModel DetailMovieViewModel => Locator.GetInstance<DetailMovieViewModel>();
+        public static SearchViewModel SearchViewModel => Locator.GetInstance<SearchViewModel>();
     }
 }

@@ -7,6 +7,16 @@ namespace Bestpractices.Service.Extensions
 {
     internal static class MovieExtensions
     {
+        public static MovieSearchResult ToMovieSearchResult(this MovieSearchResultDTO movie)
+        {
+            return new MovieSearchResult(movie.id, movie.Title);
+        }
+
+        public static IEnumerable<MovieSearchResult> ToMovieSearchResultList(this MovieSearchResultListDTO movieSearchResultList)
+        {
+            return movieSearchResultList.results.Select(x => x.ToMovieSearchResult());
+        }
+
         public static MovieDetail ToMovieDetail(this MovieDetailDTO movieDetailDTO)
         {
             return new MovieDetail(

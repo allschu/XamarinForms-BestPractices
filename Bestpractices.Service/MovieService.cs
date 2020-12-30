@@ -78,5 +78,29 @@ namespace Bestpractices.Service
                 throw new InvalidOperationException();
             }
         }
+
+        public async Task<IEnumerable<MovieSearchResult>> SearchMovie(string searchQuery, int page)
+        {
+            var response = await _httpClient.GetAsync($"SearchMovies?code=bwvSvS1C9AAoccO4/yvR5fRH7Z0LzHWbN1aGlMh2l7pNDkbkeea6EA==&search={searchQuery}&page={page}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var searchMovies = JsonConvert.DeserializeObject<MovieSearchResultListDTO>(content);
+
+                if (searchMovies == null)
+                {
+                    _loggerAgent.Error($"MovieService: SearchMovie DeserializeObject failed, is the contract still the same?");
+                    throw new InvalidCastException(nameof(searchMovies));
+                }
+
+                return searchMovies.ToMovieSearchResultList();
+            }
+            else
+            {
+                _loggerAgent.Error($"MovieService: SearchMovie failed. Statuscode: {response.StatusCode} query: {searchQuery}");
+                throw new InvalidOperationException();
+            }
+        }
     }
 }
