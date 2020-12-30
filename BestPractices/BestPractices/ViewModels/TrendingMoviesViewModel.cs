@@ -2,10 +2,12 @@
 using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
+using BestPractices.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
 {
@@ -47,6 +49,17 @@ namespace BestPractices.ViewModels
             if (selectedMovie != null)
             {
                 var movie = await _movieService.GetMovie(selectedMovie.Id);
+
+                var detailViewModel = new DetailMovieViewModel
+                {
+                    Movie = movie.ToDetailMovie(),
+                    DetailTitle = movie.Title
+                };
+
+                var page = new DetailMoviePage();
+                page.BindingContext = detailViewModel;
+
+                await Application.Current.MainPage.Navigation.PushAsync(page);
 
             } 
         }

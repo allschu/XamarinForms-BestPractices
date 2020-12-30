@@ -11,7 +11,7 @@ namespace BestPractices.Logging
         public LoggerAgent()
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("log.txt")
+                .WriteTo.File(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/log.txt")
                 //.WriteTo.AppCenterSink(
                  //   new Serilog.Core.LoggingLevelSwitch(
                    //     Serilog.Events.LogEventLevel.Debug),

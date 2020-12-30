@@ -5,8 +5,8 @@ namespace BestPractices.ViewModels
 {
     public class DetailMovieViewModel : ViewModelBase
     {
-        private MovieDetail _movie;
-        public MovieDetail Movie
+        private MovieDetailPageModel _movie;
+        public MovieDetailPageModel Movie
         {
             get => _movie;
             set => Set(ref _movie, value);

@@ -52,7 +52,7 @@ namespace Bestpractices.Service
             else
             {
                 _loggerAgent.Error($"MovieService: GetMovie called with id {id} failed. Statuscode: {response.StatusCode}");
-                throw new InvalidOperationException();
+                return new MovieDetail();
             }
         }
 

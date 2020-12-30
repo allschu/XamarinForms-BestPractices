@@ -14,6 +14,11 @@ namespace BestPractices.Common.Models
         public int Vote_Count { get; }
         public string Poster_path { get; }
 
+        public MovieDetail()
+        {
+
+        }
+
         public MovieDetail(int id, string overview, DateTime release_date, string status, string tagline, string title, double vote_average, int vote_count, string posterPath)
         {
             Id = id;

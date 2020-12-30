@@ -7,6 +7,6 @@ namespace Bestpractices.Service.Interfaces
     public interface IMovieService
     {
         Task<IEnumerable<Movie>> GetTrendingMovies();
-        Task<Movie> GetMovie(int id);
+        Task<MovieDetail> GetMovie(int id);
     }
 }
