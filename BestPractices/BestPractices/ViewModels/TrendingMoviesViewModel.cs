@@ -1,4 +1,5 @@
 ﻿using Bestpractices.Service.Interfaces;
+using BestPractices.Globals;
 using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
@@ -53,14 +54,16 @@ namespace BestPractices.ViewModels
                 var detailViewModel = new DetailMovieViewModel
                 {
                     Movie = movie.ToDetailMovie(),
-                    DetailTitle = movie.Title
+                    DetailTitle = movie.Title,
+                    Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
                 };
 
-                var page = new DetailMoviePage();
-                page.BindingContext = detailViewModel;
+                var page = new DetailMoviePage
+                {
+                    BindingContext = detailViewModel
+                };
 
                 await Application.Current.MainPage.Navigation.PushAsync(page);
-
             } 
         }
     }

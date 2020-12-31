@@ -31,21 +31,22 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Image Source="{Binding ImagePath}"
                                    HeightRequest="100"
                                    WidthRequest="100"
                            Aspect="AspectFit" />
-                                <Label Grid.Column="1"
+                                <StackLayout Grid.Column="1" Orientation="Vertical">
+                                    <Label 
                            Text="{Binding Title}"
                                    FontSize="Large"
                            FontAttributes="Bold" />
-                                <Label Grid.Column="2"
+                                    <Label
                            Text="{Binding ReleaseDate}"
                                    FontSize="Medium"
                            FontAttributes="Bold" />
+                                </StackLayout>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

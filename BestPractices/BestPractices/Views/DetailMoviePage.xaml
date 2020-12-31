@@ -21,8 +21,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <rating:SfRating Margin="0,0,0,15" WidthRequest="300" ItemCount="5" Value="{Binding Movie.Vote_Average}" HorizontalOptions="Center"  >
-                    </rating:SfRating>
+                    <Label Text="{Binding Movie.Vote_Average}" TextColor="{Binding Vote_Color}" FontSize="Large" HorizontalOptions="Center">
+                    </Label>
                     <Image Grid.Row="1" Source="{Binding Movie.Poster_path}"
                                    HeightRequest="300"
                                    WidthRequest="300"

@@ -16,7 +16,7 @@ namespace BestPractices.Models.Extensions
                 movie.Status,
                 movie.Tagline,
                 movie.Title,
-                Math.Round((movie.Vote_Average / 2)),
+                Math.Round(movie.Vote_Average, 1),
                 movie.Vote_Count,
                 movie.Poster_path
                 );
