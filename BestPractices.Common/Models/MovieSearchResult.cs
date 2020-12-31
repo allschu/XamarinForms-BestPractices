@@ -8,12 +8,14 @@ namespace BestPractices.Common.Models
     {
         public int Id { get; }
         public string Title { get;  }
-        public DateTime ReleaseDate { get; }
+        public string ImagePath { get; }
+        public DateTime? ReleaseDate { get; }
 
-        public MovieSearchResult(int id, string title, DateTime release_date)
+        public MovieSearchResult(int id, string title, string imagePath, DateTime? release_date)
         {
             Id = id;
             Title = title;
+            ImagePath = imagePath;
             ReleaseDate = release_date;
         }
     }

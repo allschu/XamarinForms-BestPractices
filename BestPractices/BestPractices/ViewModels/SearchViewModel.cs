@@ -1,11 +1,13 @@
 ﻿using Bestpractices.Service.Interfaces;
 using BestPractices.Logging;
+using BestPractices.Models;
+using BestPractices.Models.Extensions;
+using BestPractices.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
 {
@@ -35,7 +37,18 @@ namespace BestPractices.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(SearchInput))
             {
-                var movies = _movieService.SearchMovie(SearchInput, 1);
+                //todo build in support for paging
+                var movies = await _movieService.SearchMovie(SearchInput, 1);
+
+                var searchResultViewModel = new SearchResultViewModel
+                {
+                    SearchResults = new ObservableCollection<MovieSearch>(movies.ToModel())
+                };
+
+                var page = new SearchResultPage();
+                page.BindingContext = searchResultViewModel;
+
+                await Application.Current.MainPage.Navigation.PushAsync(page);
             }
         }
     }

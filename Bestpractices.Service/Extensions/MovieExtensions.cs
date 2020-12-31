@@ -9,7 +9,7 @@ namespace Bestpractices.Service.Extensions
     {
         public static MovieSearchResult ToMovieSearchResult(this MovieSearchResultDTO movie)
         {
-            return new MovieSearchResult(movie.id, movie.Title);
+            return new MovieSearchResult(movie.id, movie.Title, Constants.POSTPATH_PREFIX + movie.poster_path, movie.release_date);
         }
 
         public static IEnumerable<MovieSearchResult> ToMovieSearchResultList(this MovieSearchResultListDTO movieSearchResultList)
