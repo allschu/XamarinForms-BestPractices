@@ -41,13 +41,12 @@ namespace Bestpractices.Service
 
                 var movie = JsonConvert.DeserializeObject<MovieDetailDTO>(content);
 
-                if (movie == null)
-                {
-                    _loggerAgent.Error($"MovieService: GetMovie with id {id} deserialize failed");
-                    throw new InvalidCastException(nameof(movie));
-                }
+                if (movie != null) 
+                    return movie.ToMovieDetail();
+                
+                _loggerAgent.Error($"MovieService: GetMovie with id {id} deserialize failed");
+                throw new InvalidCastException(nameof(movie));
 
-                return movie.ToMovieDetail();
             }
             else
             {
@@ -56,25 +55,49 @@ namespace Bestpractices.Service
             }
         }
 
-        public async Task<IEnumerable<Movie>> GetTrendingMovies()
+        public async Task<IEnumerable<MovieSearchResult>> GetMovieRecommendations(int movieId)
         {
-            _loggerAgent.Information("Call trending movies");
-
-            var response = await _httpClient.GetAsync("TrendingMovies?code=ApGoXkfiUHdliapJ232zvA1ArqHRk5hw29Jr6PM4dJYbpPvWq3OaaA==");                     
+            _loggerAgent.Information($"call GetMovieRecommendations with id {movieId}");
+            var response = await _httpClient.GetAsync($"Recommendations?code=4MH6Jsg32V1cmm3cMd4FHxKhfA/SfvVpAat5mSj602M26pXreYD0AQ==&Id={movieId}");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var trendingmovies = JsonConvert.DeserializeObject<MovieDetailResultListDTO>(content);
+                var movies = JsonConvert.DeserializeObject<MovieSearchResultListDTO>(content);
 
-                if (trendingmovies == null)
-                    throw new InvalidCastException(nameof(trendingmovies));
+                if (movies != null) 
+                    return movies.ToMovieSearchResultList();
+                
+                _loggerAgent.Error($"MovieService: GetMovieRecommendations DeserializeObject failed, is the contract still the same?");
+                throw new InvalidCastException(nameof(movies));
 
-                return trendingmovies.ToMovieList();
             }
             else
             {
-                _loggerAgent.Error($"MovieService: GetTrendingMovies failed. Statuscode: {response.StatusCode}");
+                _loggerAgent.Error($"MovieService: GetMovieRecommendations failed. Status code: {response.StatusCode}");
+                throw new InvalidOperationException();
+            }
+        }
+
+        public async Task<IEnumerable<Movie>> GetTrendingMovies()
+        {
+            _loggerAgent.Information("Call trending movies");
+
+            var response = await _httpClient.GetAsync("TrendingMovies?code=ApGoXkfiUHdliapJ232zvA1ArqHRk5hw29Jr6PM4dJYbpPvWq3OaaA==");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var trendingMovies = JsonConvert.DeserializeObject<MovieDetailResultListDTO>(content);
+
+                if (trendingMovies == null)
+                    throw new InvalidCastException(nameof(trendingMovies));
+
+                return trendingMovies.ToMovieList();
+            }
+            else
+            {
+                _loggerAgent.Error($"MovieService: GetTrendingMovies failed. Status code: {response.StatusCode}");
                 throw new InvalidOperationException();
             }
         }
@@ -88,17 +111,16 @@ namespace Bestpractices.Service
 
                 var searchMovies = JsonConvert.DeserializeObject<MovieSearchResultListDTO>(content);
 
-                if (searchMovies == null)
-                {
-                    _loggerAgent.Error($"MovieService: SearchMovie DeserializeObject failed, is the contract still the same?");
-                    throw new InvalidCastException(nameof(searchMovies));
-                }
+                if (searchMovies != null) 
+                    return searchMovies.ToMovieSearchResultList();
 
-                return searchMovies.ToMovieSearchResultList();
+                _loggerAgent.Error($"MovieService: SearchMovie DeserializeObject failed, is the contract still the same?");
+                throw new InvalidCastException(nameof(searchMovies));
+
             }
             else
             {
-                _loggerAgent.Error($"MovieService: SearchMovie failed. Statuscode: {response.StatusCode} query: {searchQuery}");
+                _loggerAgent.Error($"MovieService: SearchMovie failed. Status code: {response.StatusCode} query: {searchQuery}");
                 throw new InvalidOperationException();
             }
         }

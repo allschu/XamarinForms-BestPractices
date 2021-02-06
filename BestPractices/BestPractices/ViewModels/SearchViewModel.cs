@@ -67,6 +67,7 @@ namespace BestPractices.ViewModels
             if (!string.IsNullOrWhiteSpace(SearchInput))
             {
                 Loading = true;
+
                 //todo build in support for paging
                 var movies = await _movieService.SearchMovie(SearchInput, 1);
 

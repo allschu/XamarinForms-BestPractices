@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace BestPractices.Globals
 {
@@ -14,10 +15,14 @@ namespace BestPractices.Globals
             {
                 return Color.Orange;
             }
-            else
-            {
-                return Color.Red;
-            }
+
+            return Color.Red;
+        }
+
+
+        public static string GetCultureDate(DateTime? date)
+        {
+            return date.HasValue ? date.Value.ToShortDateString() : string.Empty;
         }
     }
 }

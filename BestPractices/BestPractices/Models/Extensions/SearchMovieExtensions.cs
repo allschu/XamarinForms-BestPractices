@@ -1,4 +1,5 @@
 ﻿using BestPractices.Common.Models;
+using BestPractices.Globals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BestPractices.Models.Extensions
     {
         public static MovieSearch ToModel(this MovieSearchResult movie)
         {
-            return new MovieSearch(movie.Id, movie.Title, movie.ImagePath, GetCultureDate(movie.ReleaseDate));
+            return new MovieSearch(movie.Id, movie.Title, movie.ImagePath, SharedFunctions.GetCultureDate(movie.ReleaseDate));
         }
 
         public static List<MovieSearch> ToModel(this IEnumerable<MovieSearchResult> movies)
@@ -17,13 +18,5 @@ namespace BestPractices.Models.Extensions
             return movies.Select(x => x.ToModel()).ToList();
         }
 
-        private static string GetCultureDate(DateTime? date)
-        {
-            if (date.HasValue)
-            {
-                return date.Value.ToShortDateString();
-            }
-            return string.Empty;
-        }
     }
 }

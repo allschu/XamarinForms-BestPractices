@@ -6,7 +6,7 @@ namespace BestPractices.Dependency
 {
     public class Locator : ILocator
     {
-        private TinyIoCContainer _container;
+        private readonly TinyIoCContainer _container;
 
         public Locator(TinyIoCContainer container)
         {

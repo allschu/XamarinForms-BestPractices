@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BestPractices.Common.Models
 {
@@ -13,6 +14,7 @@ namespace BestPractices.Common.Models
         public double Vote_Average { get; }
         public int Vote_Count { get; }
         public string Poster_path { get; }
+        public IReadOnlyCollection<Cast> Cast { get; }
 
         public MovieDetail()
         {

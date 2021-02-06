@@ -51,9 +51,9 @@ namespace BestPractices.ViewModels
             {
                 var movie = await _movieService.GetMovie(selectedMovie.Id);
 
-                var detailViewModel = new DetailMovieViewModel
+                var detailViewModel = new DetailMovieViewModel(_movieService, _logger)
                 {
-                    Movie = movie.ToDetailMovie(),
+                    Movie =  movie.ToDetailMovie(),
                     DetailTitle = movie.Title,
                     Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
                 };

@@ -1,37 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:app="clr-namespace:BestPractices"
              BindingContext="{Static app:ViewModelLocator.DetailMovieViewModel}"
              x:Class="BestPractices.Views.DetailMoviePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title" Text="{Binding DetailTitle}">
-            </Label>
-            <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
-            <ScrollView>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label Text="{Binding Movie.Vote_Average}" TextColor="{Binding Vote_Color}" FontSize="Large" HorizontalOptions="Center">
-                    </Label>
-                    <Image Grid.Row="1" Source="{Binding Movie.Poster_path}"
-                                   HeightRequest="300"
-                                   WidthRequest="300"
-                           Aspect="AspectFit" />
-                    <BoxView Grid.Row="2" Margin="0, 10, 0, 15" HeightRequest="1" Color="LightGray" />
-                    <Label Grid.Row="3" Margin="15" HorizontalOptions="Center" Text="{Binding Movie.Overview}" FontSize="Medium"></Label>
-                    
-                </Grid>
-            </ScrollView>
-        </StackLayout>
+        <Grid>
+            <xct:TabView
+                TabStripBackgroundColor="Orange"
+                TabIndicatorColor="Gray"
+                TabStripHeight="60">
+               <xct:TabViewItem
+                   Text="Movie details">
+                   <StackLayout>
+                       <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title" Text="{Binding DetailTitle}">
+                       </Label>
+                       <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
+                       <ScrollView>
+                           <Grid>
+                               <Grid.RowDefinitions>
+                                   <RowDefinition Height="auto"></RowDefinition>
+                                   <RowDefinition Height="auto"></RowDefinition>
+                                   <RowDefinition Height="auto"></RowDefinition>
+                                   <RowDefinition Height="*"></RowDefinition>
+                               </Grid.RowDefinitions>
+                               <Grid.ColumnDefinitions>
+                                   <ColumnDefinition Width="auto"></ColumnDefinition>
+                               </Grid.ColumnDefinitions>
+                               <Label Text="{Binding Movie.Vote_Average}" TextColor="{Binding Vote_Color}" FontSize="Large" HorizontalOptions="Center">
+                               </Label>
+                               <Image Grid.Row="1" Source="{Binding Movie.Poster_path}"
+                                      HeightRequest="300"
+                                      WidthRequest="300"
+                                      Aspect="AspectFit" />
+                               <BoxView Grid.Row="2" Margin="0, 10, 0, 15" HeightRequest="1" Color="LightGray" />
+                               <Label Grid.Row="3" Margin="15" HorizontalOptions="Center" Text="{Binding Movie.Overview}" FontSize="Medium"></Label>
+                           </Grid>
+                       </ScrollView>
+                   </StackLayout>
+                </xct:TabViewItem> 
+                <xct:TabViewItem
+                    Text="Cast">
+
+                </xct:TabViewItem>
+            </xct:TabView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

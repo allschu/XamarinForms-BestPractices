@@ -9,7 +9,7 @@ namespace Bestpractices.Service.Extensions
     {
         public static MovieSearchResult ToMovieSearchResult(this MovieSearchResultDTO movie)
         {
-            return new MovieSearchResult(movie.id, movie.Title, Constants.POSTPATH_PREFIX + movie.poster_path, movie.release_date);
+            return new MovieSearchResult(movie.id, movie.Title, Constants.POSTER_PATH_PREFIX + movie.poster_path, movie.release_date);
         }
 
         public static IEnumerable<MovieSearchResult> ToMovieSearchResultList(this MovieSearchResultListDTO movieSearchResultList)
@@ -17,35 +17,35 @@ namespace Bestpractices.Service.Extensions
             return movieSearchResultList.results.Select(x => x.ToMovieSearchResult());
         }
 
-        public static MovieDetail ToMovieDetail(this MovieDetailDTO movieDetailDTO)
+        public static MovieDetail ToMovieDetail(this MovieDetailDTO movieDetailDto)
         {
             return new MovieDetail(
-                movieDetailDTO.Id,
-                movieDetailDTO.Overview,
-                movieDetailDTO.Release_date,
-                movieDetailDTO.Status,
-                movieDetailDTO.Tagline,
-                movieDetailDTO.Title,
-                movieDetailDTO.Vote_Average,
-                movieDetailDTO.Vote_Count,
-                Constants.POSTPATH_PREFIX + movieDetailDTO.Poster_path
+                movieDetailDto.Id,
+                movieDetailDto.Overview,
+                movieDetailDto.Release_date,
+                movieDetailDto.Status,
+                movieDetailDto.Tagline,
+                movieDetailDto.Title,
+                movieDetailDto.Vote_Average,
+                movieDetailDto.Vote_Count,
+                Constants.POSTER_PATH_PREFIX + movieDetailDto.Poster_path
                 );
         }
 
-        public static Movie ToMovie(this MovieDetailDTO movieDetailDTO)
+        public static Movie ToMovie(this MovieDetailDTO movieDetailDto)
         {
             return new Movie(
-                movieDetailDTO.Id,
-                movieDetailDTO.Title,
-                movieDetailDTO.Tagline,
-                Constants.POSTPATH_PREFIX + movieDetailDTO.Poster_path,
-                movieDetailDTO.Release_date
+                movieDetailDto.Id,
+                movieDetailDto.Title,
+                movieDetailDto.Tagline,
+                Constants.POSTER_PATH_PREFIX + movieDetailDto.Poster_path,
+                movieDetailDto.Release_date
                 );
         }
 
-        public static IEnumerable<Movie> ToMovieList(this MovieDetailResultListDTO movieDetailResultListDTO)
+        public static IEnumerable<Movie> ToMovieList(this MovieDetailResultListDTO movieDetailResultListDto)
         {
-            return movieDetailResultListDTO.results.Select(movie => movie.ToMovie());
+            return movieDetailResultListDto.results.Select(movie => movie.ToMovie());
         }
     }
 }
