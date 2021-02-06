@@ -15,6 +15,7 @@ namespace BestPractices.ViewModels
     public class DetailMovieViewModel : ViewModelBase
     {
         private readonly IMovieService _movieService;
+        private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
         private MovieDetailPageModel _movie;
@@ -24,6 +25,13 @@ namespace BestPractices.ViewModels
             set => Set(ref _movie, value);
         }
 
+        private ObservableCollection<CastList> _castList;
+        public ObservableCollection<CastList> CastList
+        {
+            get => _castList;
+            set => Set(ref _castList, value);
+        }
+        
         private ObservableCollection<MovieList> _recommandations;
         public ObservableCollection<MovieList> Recommendations
         {
@@ -45,13 +53,29 @@ namespace BestPractices.ViewModels
             set => Set(ref _vote_color, value);
         }
 
-        public DetailMovieViewModel(IMovieService movieService, ILoggerAgent loggerAgent)
+        public DetailMovieViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
         {
             _movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
+            _castService = castService ?? throw new ArgumentNullException(nameof(castService));
             _logger = loggerAgent ?? throw new ArgumentNullException(nameof(loggerAgent));
+           
         }
 
-        private async Task LoadView()
+        private async Task GetMovieCredits()
+        {
+            if (Movie?.Id > 0)
+            {
+                var cast = await _castService.GetMovieCredits(Movie.Id);
+
+                var enumerable = cast as Cast[] ?? cast.ToArray();
+                if (enumerable.Any())
+                {
+                    CastList = new ObservableCollection<CastList>(enumerable.ToViewModel());
+                }
+            }
+        }
+
+        private async Task GetRecommendations()
         {
             if (Movie?.Id > 0)
             {
@@ -72,5 +96,6 @@ namespace BestPractices.ViewModels
                 _logger.Warning("Cannot load recommendations, missing movie id");
             }
         }
+
     }
 }

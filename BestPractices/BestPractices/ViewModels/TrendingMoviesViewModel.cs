@@ -1,4 +1,5 @@
-﻿using Bestpractices.Service.Interfaces;
+﻿using System.Collections.Generic;
+using Bestpractices.Service.Interfaces;
 using BestPractices.Globals;
 using BestPractices.Logging;
 using BestPractices.Models;
@@ -15,6 +16,7 @@ namespace BestPractices.ViewModels
     public class TrendingMoviesViewModel : ViewModelBase
     {
         private readonly IMovieService _movieService;
+        private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
         public RelayCommand<MovieList> ItemClickedCommand { set; get; }
@@ -26,9 +28,10 @@ namespace BestPractices.ViewModels
             set => Set(ref _movieList, value);
         }
 
-        public TrendingMoviesViewModel(IMovieService movieService, ILoggerAgent logger)
+        public TrendingMoviesViewModel(IMovieService movieService, ICastService castService, ILoggerAgent logger)
         {
             _movieService = movieService;
+            _castService = castService;
             _logger = logger;
 
             ItemClickedCommand = new RelayCommand<MovieList>(async args => await NavigateToMovieDetails(args));
@@ -49,22 +52,36 @@ namespace BestPractices.ViewModels
         {
             if (selectedMovie != null)
             {
-                var movie = await _movieService.GetMovie(selectedMovie.Id);
+                DetailMovieViewModel detailViewModel = null;
 
-                var detailViewModel = new DetailMovieViewModel(_movieService, _logger)
-                {
-                    Movie =  movie.ToDetailMovie(),
-                    DetailTitle = movie.Title,
-                    Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
-                };
+                await Task.Run(async () =>
+               {
+                   var movie = await _movieService.GetMovie(selectedMovie.Id).ConfigureAwait(false);
+                   var cast = await _castService.GetMovieCredits(selectedMovie.Id).ConfigureAwait(false);
+                   var recommendations = await _movieService.GetMovieRecommendations(selectedMovie.Id).ConfigureAwait(false);
 
-                var page = new DetailMoviePage
-                {
-                    BindingContext = detailViewModel
-                };
+                   detailViewModel = new DetailMovieViewModel(_movieService, _castService, _logger)
+                   {
+                       Movie = movie.ToDetailMovie(),
+                       CastList = new ObservableCollection<CastList>(cast.ToViewModel()),
+                       Recommendations = new ObservableCollection<MovieList>(recommendations.ToMovieList()),
+                       DetailTitle = movie.Title,
+                       Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
+                   };
+               }).ContinueWith((args) =>
+               {
+                   Device.BeginInvokeOnMainThread(async () =>
+                  {
+                      var page = new DetailMoviePage
+                      {
+                          BindingContext = detailViewModel
+                      };
 
-                await Application.Current.MainPage.Navigation.PushAsync(page);
-            } 
+                      await Application.Current.MainPage.Navigation.PushAsync(page);
+                  });
+                   return Task.CompletedTask;
+               }).ConfigureAwait(false);
+            }
         }
     }
 }

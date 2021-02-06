@@ -14,6 +14,7 @@ namespace BestPractices.ViewModels
     public class SearchViewModel : ViewModelBase
     {
         private readonly IMovieService _movieService;
+        private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
         public RelayCommand SearchCommand { get; set; }
@@ -34,9 +35,10 @@ namespace BestPractices.ViewModels
             set => Set(ref _loading, value);
         }
 
-        public SearchViewModel(IMovieService movieService, ILoggerAgent loggerAgent)
+        public SearchViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
         {
             _movieService = movieService;
+            _castService = castService;
             _logger = loggerAgent;
 
             Loading = false;
@@ -50,7 +52,7 @@ namespace BestPractices.ViewModels
             Loading = true;
             var movies = await _movieService.GetTrendingMovies();
 
-            var trendingViewModel = new TrendingMoviesViewModel(_movieService, _logger)
+            var trendingViewModel = new TrendingMoviesViewModel(_movieService, _castService,_logger)
             {
                 MovieList = new ObservableCollection<MovieList>(movies.ToModel())
             };
@@ -71,7 +73,7 @@ namespace BestPractices.ViewModels
                 //todo build in support for paging
                 var movies = await _movieService.SearchMovie(SearchInput, 1);
 
-                var searchResultViewModel = new SearchResultViewModel(_movieService, _logger)
+                var searchResultViewModel = new SearchResultViewModel(_movieService, _castService,_logger)
                 {
                     SearchResults = new ObservableCollection<MovieSearch>(movies.ToModel())
                 };

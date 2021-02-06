@@ -22,6 +22,7 @@ namespace BestPractices.Dependency
             var container = new TinyIoCContainer();
             container.Register<ILoggerAgent, LoggerAgent>();
             container.Register<IMovieService, MovieService>();
+            container.Register<ICastService, CastService>();
 
             return container;
         }

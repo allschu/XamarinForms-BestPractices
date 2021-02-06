@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:app="clr-namespace:BestPractices"
+             xmlns:behaviors="clr-namespace:BestPractices.Behaviors;assembly=BestPractices"
              BindingContext="{Static app:ViewModelLocator.DetailMovieViewModel}"
              x:Class="BestPractices.Views.DetailMoviePage">
     <ContentPage.Content>
@@ -42,7 +43,76 @@
                 </xct:TabViewItem> 
                 <xct:TabViewItem
                     Text="Cast">
-
+                    <StackLayout>
+                        <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title" Text="{Binding DetailTitle}">
+                        </Label>
+                        <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
+                        <ListView ItemsSource="{Binding CastList}" HasUnevenRows="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="{Binding ImageUrl}"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100"
+                                                   Aspect="AspectFit" />
+                                            <StackLayout Grid.Column="1" Orientation="Vertical">
+                                                <Label 
+                                                       Text="{Binding Name}"
+                                                       FontSize="Medium"
+                                                       FontAttributes="Bold" />
+                                                <Label 
+                                                       Text="{Binding Character}"
+                                                       FontSize="Medium"
+                                                       FontAttributes="Italic" />
+                                            </StackLayout>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </xct:TabViewItem>
+                <xct:TabViewItem
+                    Text="Recommendations">
+                    <StackLayout>
+                        <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title" Text="{Binding DetailTitle}">
+                        </Label>
+                        <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
+                        <ListView ItemsSource="{Binding Recommendations}"  HasUnevenRows="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="{Binding ImagePath}"
+                                                   HeightRequest="100"
+                                                   WidthRequest="100"
+                                                   Aspect="AspectFit" />
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding Title}"
+                                                   FontSize="Large"
+                                                   FontAttributes="Bold" />
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                   
                 </xct:TabViewItem>
             </xct:TabView>
         </Grid>

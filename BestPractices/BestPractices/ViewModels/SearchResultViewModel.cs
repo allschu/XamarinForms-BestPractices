@@ -15,6 +15,7 @@ namespace BestPractices.ViewModels
     public class SearchResultViewModel : ViewModelBase
     {
         private readonly IMovieService _movieService;
+        private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
         public RelayCommand<MovieSearch> ItemClickedCommand { set; get; }
@@ -26,9 +27,10 @@ namespace BestPractices.ViewModels
             set => Set(ref _searchResult, value);
         }
 
-        public SearchResultViewModel(IMovieService movieService, ILoggerAgent loggerAgent)
+        public SearchResultViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
         {
             _movieService = movieService;
+            _castService = castService;
             _logger = loggerAgent;
 
             ItemClickedCommand = new RelayCommand<MovieSearch>(async args => await NavigateToMovieDetails(args));
@@ -40,7 +42,7 @@ namespace BestPractices.ViewModels
             {
                 var movie = await _movieService.GetMovie(selectedMovie.Id);
 
-                var detailViewModel = new DetailMovieViewModel(_movieService, _logger)
+                var detailViewModel = new DetailMovieViewModel(_movieService, _castService, _logger)
                 {
                     DetailTitle = movie.Title,
                     Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
