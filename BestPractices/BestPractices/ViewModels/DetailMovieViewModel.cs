@@ -1,13 +1,14 @@
 ﻿using Bestpractices.Service.Interfaces;
+using BestPractices.Globals;
 using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
+using BestPractices.Views;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using BestPractices.Common.Models;
 using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
@@ -17,6 +18,8 @@ namespace BestPractices.ViewModels
         private readonly IMovieService _movieService;
         private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
+
+        public RelayCommand<MovieList> ItemClickedCommand { set; get; }
 
         private MovieDetailPageModel _movie;
         public MovieDetailPageModel Movie
@@ -58,44 +61,44 @@ namespace BestPractices.ViewModels
             _movieService = movieService ?? throw new ArgumentNullException(nameof(movieService));
             _castService = castService ?? throw new ArgumentNullException(nameof(castService));
             _logger = loggerAgent ?? throw new ArgumentNullException(nameof(loggerAgent));
-           
+
+            ItemClickedCommand = new RelayCommand<MovieList>(async args => await NavigateToMovieDetails(args));
         }
 
-        private async Task GetMovieCredits()
+        private async Task NavigateToMovieDetails(MovieList selectedMovie)
         {
-            if (Movie?.Id > 0)
-            {
-                var cast = await _castService.GetMovieCredits(Movie.Id);
+            if (selectedMovie == null)
+                throw new ArgumentNullException(nameof(selectedMovie));
 
-                var enumerable = cast as Cast[] ?? cast.ToArray();
-                if (enumerable.Any())
+            DetailMovieViewModel detailViewModel = null;
+
+            await Task.Run(async () =>
+            {
+                var movie = await _movieService.GetMovie(selectedMovie.Id).ConfigureAwait(false);
+                var cast = await _castService.GetMovieCredits(selectedMovie.Id).ConfigureAwait(false);
+                var recommendations = await _movieService.GetMovieRecommendations(selectedMovie.Id).ConfigureAwait(false);
+
+                detailViewModel = new DetailMovieViewModel(_movieService, _castService, _logger)
                 {
-                    CastList = new ObservableCollection<CastList>(enumerable.ToViewModel());
-                }
-            }
+                    Movie = movie.ToDetailMovie(),
+                    CastList = new ObservableCollection<CastList>(cast.ToViewModel()),
+                    Recommendations = new ObservableCollection<MovieList>(recommendations.ToMovieList()),
+                    DetailTitle = movie.Title,
+                    Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
+                };
+            }).ContinueWith((args) =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    var page = new DetailMoviePage
+                    {
+                        BindingContext = detailViewModel
+                    };
+
+                    await Application.Current.MainPage.Navigation.PushAsync(page);
+                });
+                return Task.CompletedTask;
+            }).ConfigureAwait(false);
         }
-
-        private async Task GetRecommendations()
-        {
-            if (Movie?.Id > 0)
-            {
-                var recommendations = await _movieService.GetMovieRecommendations(Movie.Id);
-
-                var movieSearchResults = recommendations as MovieSearchResult[] ?? recommendations.ToArray();
-                if (movieSearchResults.Any())
-                {
-                    Recommendations = new ObservableCollection<MovieList>(movieSearchResults.ToMovieList());
-                }
-                else
-                {
-                    _logger.Information($"No recommendations present for movie {Movie.Id}");
-                }
-            }
-            else
-            {
-                _logger.Warning("Cannot load recommendations, missing movie id");
-            }
-        }
-
     }
 }

@@ -38,24 +38,35 @@ namespace BestPractices.ViewModels
 
         private async Task NavigateToMovieDetails(MovieSearch selectedMovie)
         {
-            if (selectedMovie != null)
-            {
-                var movie = await _movieService.GetMovie(selectedMovie.Id);
+            DetailMovieViewModel detailViewModel = null;
 
-                var detailViewModel = new DetailMovieViewModel(_movieService, _castService, _logger)
+            await Task.Run(async () =>
+            {
+                var movie = await _movieService.GetMovie(selectedMovie.Id).ConfigureAwait(false);
+                var cast = await _castService.GetMovieCredits(selectedMovie.Id).ConfigureAwait(false);
+                var recommendations = await _movieService.GetMovieRecommendations(selectedMovie.Id).ConfigureAwait(false);
+
+                detailViewModel = new DetailMovieViewModel(_movieService, _castService, _logger)
                 {
+                    Movie = movie.ToDetailMovie(),
+                    CastList = new ObservableCollection<CastList>(cast.ToViewModel()),
+                    Recommendations = new ObservableCollection<MovieList>(recommendations.ToMovieList()),
                     DetailTitle = movie.Title,
                     Vote_Color = SharedFunctions.Determine_Vote_Color(movie.Vote_Average)
                 };
-
-                var page = new DetailMoviePage
+            }).ContinueWith((args) =>
+            {
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    BindingContext = detailViewModel
-                };
+                    var page = new DetailMoviePage
+                    {
+                        BindingContext = detailViewModel
+                    };
 
-                await Application.Current.MainPage.Navigation.PushAsync(page);
-
-            }
+                    await Application.Current.MainPage.Navigation.PushAsync(page);
+                });
+                return Task.CompletedTask;
+            }).ConfigureAwait(false);
         }
     }
 }
