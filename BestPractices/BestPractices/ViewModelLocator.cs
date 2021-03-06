@@ -1,5 +1,5 @@
 ﻿using BestPractices.Common;
-using BestPractices.Dependency;
+using BestPractices.IoC;
 using BestPractices.ViewModels;
 
 namespace BestPractices

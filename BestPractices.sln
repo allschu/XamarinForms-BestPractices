@@ -7,17 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPractices.Android", "Be
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPractices.iOS", "BestPractices\BestPractices.iOS\BestPractices.iOS.csproj", "{D14872FC-110D-41A2-9CB5-86A9B1F7FD43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPractices", "BestPractices\BestPractices\BestPractices.csproj", "{0E58BE59-92B8-42DF-982D-E2BECCDE32B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestPractices", "BestPractices\BestPractices\BestPractices.csproj", "{0E58BE59-92B8-42DF-982D-E2BECCDE32B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPractices.Common", "BestPractices.Common\BestPractices.Common.csproj", "{7AB04620-11A3-4637-99EB-79DE1631F485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestPractices.Common", "BestPractices.Common\BestPractices.Common.csproj", "{7AB04620-11A3-4637-99EB-79DE1631F485}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bestpractices.Dal", "Bestpractices.Dal\Bestpractices.Dal.csproj", "{593CEC00-008B-4328-8F3C-80B04329E6CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bestpractices.Dal", "Bestpractices.Dal\Bestpractices.Dal.csproj", "{593CEC00-008B-4328-8F3C-80B04329E6CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bestpractices.Service", "Bestpractices.Service\Bestpractices.Service.csproj", "{B5D8A4BC-2EA0-480A-9A10-5E54F16DF5B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bestpractices.Service", "Bestpractices.Service\Bestpractices.Service.csproj", "{B5D8A4BC-2EA0-480A-9A10-5E54F16DF5B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPractices.Dependency", "BestPractices.Dependency\BestPractices.Dependency.csproj", "{0464FADA-BBE3-4E9A-8291-0136E164FCD9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BestPractices.Logging", "BestPractices.Logging\BestPractices.Logging.csproj", "{88F4B98B-391F-4F89-BFCA-8C33D32AD9C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BestPractices.Logging", "BestPractices.Logging\BestPractices.Logging.csproj", "{88F4B98B-391F-4F89-BFCA-8C33D32AD9C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,18 +117,6 @@ Global
 		{B5D8A4BC-2EA0-480A-9A10-5E54F16DF5B2}.Release|iPhone.Build.0 = Release|Any CPU
 		{B5D8A4BC-2EA0-480A-9A10-5E54F16DF5B2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{B5D8A4BC-2EA0-480A-9A10-5E54F16DF5B2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Release|iPhone.Build.0 = Release|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{0464FADA-BBE3-4E9A-8291-0136E164FCD9}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{88F4B98B-391F-4F89-BFCA-8C33D32AD9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88F4B98B-391F-4F89-BFCA-8C33D32AD9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F4B98B-391F-4F89-BFCA-8C33D32AD9C9}.Debug|iPhone.ActiveCfg = Debug|Any CPU

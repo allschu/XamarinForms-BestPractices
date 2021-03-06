@@ -4,11 +4,10 @@ using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
 using BestPractices.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
@@ -19,13 +18,13 @@ namespace BestPractices.ViewModels
         private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
-        public RelayCommand<MovieList> ItemClickedCommand { set; get; }
+        public ICommand ItemClickedCommand { set; get; }
 
         private ObservableCollection<MovieList> _movieList;
         public ObservableCollection<MovieList> MovieList
         {
             get => _movieList;
-            set => Set(ref _movieList, value);
+            set => SetProperty(ref _movieList, value);
         }
 
         public TrendingMoviesViewModel(IMovieService movieService, ICastService castService, ILoggerAgent logger)
@@ -34,7 +33,7 @@ namespace BestPractices.ViewModels
             _castService = castService;
             _logger = logger;
 
-            ItemClickedCommand = new RelayCommand<MovieList>(async args => await NavigateToMovieDetails(args));
+            ItemClickedCommand = new Command<MovieList>(async args => await NavigateToMovieDetails(args));
 
             Task.Run(async () => await LoadView()); ;
         }

@@ -4,10 +4,9 @@ using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
 using BestPractices.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
@@ -18,13 +17,13 @@ namespace BestPractices.ViewModels
         private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
-        public RelayCommand<MovieSearch> ItemClickedCommand { set; get; }
+        public ICommand ItemClickedCommand { set; get; }
 
         private ObservableCollection<MovieSearch> _searchResult;
         public ObservableCollection<MovieSearch> SearchResults
         {
             get => _searchResult;
-            set => Set(ref _searchResult, value);
+            set => SetProperty(ref _searchResult, value);
         }
 
         public SearchResultViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
@@ -33,7 +32,7 @@ namespace BestPractices.ViewModels
             _castService = castService;
             _logger = loggerAgent;
 
-            ItemClickedCommand = new RelayCommand<MovieSearch>(async args => await NavigateToMovieDetails(args));
+            ItemClickedCommand = new Command<MovieSearch>(async args => await NavigateToMovieDetails(args));
         }
 
         private async Task NavigateToMovieDetails(MovieSearch selectedMovie)

@@ -4,11 +4,10 @@ using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
 using BestPractices.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
@@ -19,41 +18,41 @@ namespace BestPractices.ViewModels
         private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
-        public RelayCommand<MovieList> ItemClickedCommand { set; get; }
+        public ICommand ItemClickedCommand { set; get; }
 
         private MovieDetailPageModel _movie;
         public MovieDetailPageModel Movie
         {
             get => _movie;
-            set => Set(ref _movie, value);
+            set => SetProperty(ref _movie, value);
         }
 
         private ObservableCollection<CastList> _castList;
         public ObservableCollection<CastList> CastList
         {
             get => _castList;
-            set => Set(ref _castList, value);
+            set => SetProperty(ref _castList, value);
         }
         
         private ObservableCollection<MovieList> _recommandations;
         public ObservableCollection<MovieList> Recommendations
         {
             get => _recommandations;
-            set => Set(ref _recommandations, value);
+            set => SetProperty(ref _recommandations, value);
         }
 
         private string _detailTitle;
         public string DetailTitle
         {
             get => _detailTitle;
-            set => Set(ref _detailTitle, value);
+            set => SetProperty(ref _detailTitle, value);
         }
 
         private Color _vote_color;
         public Color Vote_Color
         {
             get => _vote_color;
-            set => Set(ref _vote_color, value);
+            set => SetProperty(ref _vote_color, value);
         }
 
         public DetailMovieViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
@@ -62,7 +61,7 @@ namespace BestPractices.ViewModels
             _castService = castService ?? throw new ArgumentNullException(nameof(castService));
             _logger = loggerAgent ?? throw new ArgumentNullException(nameof(loggerAgent));
 
-            ItemClickedCommand = new RelayCommand<MovieList>(async args => await NavigateToMovieDetails(args));
+            ItemClickedCommand = new Command<MovieList>(async args => await NavigateToMovieDetails(args));
         }
 
         private async Task NavigateToMovieDetails(MovieList selectedMovie)

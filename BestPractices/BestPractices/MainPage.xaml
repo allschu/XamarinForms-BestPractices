@@ -1,25 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:app="clr-namespace:BestPractices"
-             BindingContext="{Static app:ViewModelLocator.SearchViewModel}"
-             x:Class="BestPractices.MainPage">
-    <ContentPage.Resources>
-     
-    </ContentPage.Resources>
+<ContentPage
+    x:Class="BestPractices.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="clr-namespace:BestPractices"
+    BindingContext="{Static app:ViewModelLocator.SearchViewModel}">
+    <ContentPage.Resources />
     <StackLayout Orientation="Vertical">
-        <Label Margin="0, 20, 0,0" HorizontalOptions="Center" FontSize="Title">
+        <Label
+            Margin="0,20,0,0"
+            FontSize="Title"
+            HorizontalOptions="Center">
             Search movie
         </Label>
-        <BoxView Margin="0, 10, 0, 25" HeightRequest="1" Color="LightGray" />
-        <Entry Margin="20" Text="{Binding SearchInput, Mode=TwoWay}"></Entry>
-        <Button HorizontalOptions="Center" WidthRequest="150" Command="{Binding SearchCommand}" Text="Search"></Button>
-        <Button HorizontalOptions="Center" WidthRequest="150" Command="{Binding ClearCommand}" Text="Clear"></Button>
-        <ActivityIndicator IsVisible="{Binding Loading}" Margin="0,50" HorizontalOptions="Center" IsRunning="True"></ActivityIndicator>
+        <BoxView
+            Margin="0,10,0,25"
+            HeightRequest="1"
+            Color="LightGray" />
+        <Entry Margin="20" Text="{Binding SearchInput, Mode=TwoWay}" />
+        <Button
+            Command="{Binding SearchCommand}"
+            HorizontalOptions="Center"
+            Text="Search"
+            WidthRequest="150" />
+        <Button
+            Command="{Binding ClearCommand}"
+            HorizontalOptions="Center"
+            Text="Clear"
+            WidthRequest="150" />
+        <ActivityIndicator
+            Margin="0,50"
+            HorizontalOptions="Center"
+            IsRunning="True"
+            IsVisible="{Binding Loading}" />
 
         <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
-            <Button Command="{Binding GoToTrendingCommand}" Text="Trending"></Button>
+            <Button Command="{Binding GoToTrendingCommand}" Text="Trending" />
         </StackLayout>
-            
+
     </StackLayout>
 </ContentPage>

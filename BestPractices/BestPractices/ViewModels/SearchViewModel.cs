@@ -3,36 +3,37 @@ using BestPractices.Logging;
 using BestPractices.Models;
 using BestPractices.Models.Extensions;
 using BestPractices.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BestPractices.ViewModels
 {
     public class SearchViewModel : ViewModelBase
     {
+        
         private readonly IMovieService _movieService;
         private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
 
-        public RelayCommand SearchCommand { get; set; }
-        public RelayCommand ClearCommand { get; set; }
-        public RelayCommand GoToTrendingCommand { get; set; }
+        public ICommand SearchCommand { get; set; }
+        public ICommand ClearCommand { get; set; }
+        public ICommand GoToTrendingCommand { get; set; }
 
         private string _searchInput;
         public string SearchInput
         {
             get => _searchInput;
-            set => Set(ref _searchInput, value);
+            set => SetProperty(ref _searchInput, value);
         }
 
         private bool _loading;
+              
         public bool Loading
         {
             get => _loading;
-            set => Set(ref _loading, value);
+            set => SetProperty(ref _loading, value);
         }
 
         public SearchViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
@@ -42,9 +43,9 @@ namespace BestPractices.ViewModels
             _logger = loggerAgent;
 
             Loading = false;
-            SearchCommand = new RelayCommand(async () => await Search());
-            ClearCommand = new RelayCommand(() => { SearchInput = string.Empty; });
-            GoToTrendingCommand = new RelayCommand(async () => await GoToTrending());
+            SearchCommand = new Command(async () => await Search());
+            ClearCommand = new Command(() => { SearchInput = string.Empty; });
+            GoToTrendingCommand = new Command(async () => await GoToTrending());
         }
 
         private async Task GoToTrending()

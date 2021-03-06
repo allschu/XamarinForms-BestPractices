@@ -1,6 +1,6 @@
 ﻿using Serilog;
-using Serilog.Sink.AppCenter;
 using System;
+using System.IO;
 
 namespace BestPractices.Logging
 {
@@ -10,15 +10,20 @@ namespace BestPractices.Logging
 
         public LoggerAgent()
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.File(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/log.txt")
-                //.WriteTo.AppCenterSink(
-                 //   new Serilog.Core.LoggingLevelSwitch(
-                   //     Serilog.Events.LogEventLevel.Debug),
-                   //     Serilog.Events.LogEventLevel.Debug,
-                   //     AppCenterTarget.ExceptionsAsCrashesAndEvents,
-                  //      APP_CENTER_SECRET)
-                .CreateLogger();
+            var logpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/log.txt";
+
+            if (!File.Exists(logpath))
+            {
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.File(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/log.txt")
+                    //.WriteTo.AppCenterSink(
+                    //   new Serilog.Core.LoggingLevelSwitch(
+                    //     Serilog.Events.LogEventLevel.Debug),
+                    //     Serilog.Events.LogEventLevel.Debug,
+                    //     AppCenterTarget.ExceptionsAsCrashesAndEvents,
+                    //      APP_CENTER_SECRET)
+                    .CreateLogger();
+            }
         }
         public void Debug(string debugInformation)
         {
