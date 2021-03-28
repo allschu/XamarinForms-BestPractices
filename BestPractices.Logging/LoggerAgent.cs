@@ -6,6 +6,7 @@ namespace BestPractices.Logging
 {
     public class LoggerAgent : ILoggerAgent
     {
+        //placeholder to write to App_Center
         private readonly string APP_CENTER_SECRET = "";
 
         public LoggerAgent()

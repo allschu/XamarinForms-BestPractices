@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="BestPractices.Views.SearchView"
+    x:Class="BestPractices.Views.SearchViewPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:app="clr-namespace:BestPractices"
@@ -28,12 +28,6 @@
                 HorizontalOptions="Center"
                 Text="Clear"
                 WidthRequest="150" />
-            <ActivityIndicator
-                Margin="0,50"
-                HorizontalOptions="Center"
-                IsRunning="True"
-                IsVisible="{Binding Loading}" />
-
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
                 <Button Command="{Binding GoToTrendingCommand}" Text="Trending" />
             </StackLayout>

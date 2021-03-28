@@ -1,4 +1,5 @@
-﻿using BestPractices.Services.Interfaces;
+﻿using BestPractices.IoC;
+using BestPractices.Services.Interfaces;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -13,7 +14,7 @@ namespace BestPractices.ViewModels
 
         public ViewModelBase()
         {
-
+            NavigationService = ViewModelLocator.Resolve<INavigationService>();
         }
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

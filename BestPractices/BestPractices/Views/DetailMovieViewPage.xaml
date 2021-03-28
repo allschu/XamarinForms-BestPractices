@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="BestPractices.Views.DetailMoviePage"
+    x:Class="BestPractices.Views.DetailMovieViewPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:app="clr-namespace:BestPractices"
-    xmlns:behaviors="clr-namespace:BestPractices.Behaviors;assembly=BestPractices"
-    xmlns:c="clr-namespace:BestPractices.Converters"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     BindingContext="{Static app:ViewModelLocator.DetailMovieViewModel}">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <c:ItemTappedEventArgsConverter x:Key="ItemTappedConverter" />
+            <xct:ItemTappedEventArgsConverter x:Key="ItemTappedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -125,9 +123,9 @@
                             Color="LightGray" />
                         <ListView HasUnevenRows="True" ItemsSource="{Binding Recommendations}">
                             <ListView.Behaviors>
-                                <behaviors:EventToCommandBehavior
+                                <xct:EventToCommandBehavior
                                     Command="{Binding ItemClickedCommand}"
-                                    Converter="{StaticResource ItemTappedConverter}"
+                                    EventArgsConverter="{StaticResource ItemTappedConverter}"
                                     EventName="ItemTapped" />
                             </ListView.Behaviors>
                             <ListView.ItemTemplate>

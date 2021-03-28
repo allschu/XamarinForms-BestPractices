@@ -12,7 +12,6 @@ namespace BestPractices.ViewModels
 {
     public class SearchViewModel : ViewModelBase
     {
-        
         private readonly IMovieService _movieService;
         private readonly ICastService _castService;
         private readonly ILoggerAgent _logger;
@@ -28,21 +27,12 @@ namespace BestPractices.ViewModels
             set => SetProperty(ref _searchInput, value);
         }
 
-        private bool _loading;
-              
-        public bool Loading
-        {
-            get => _loading;
-            set => SetProperty(ref _loading, value);
-        }
-
         public SearchViewModel(IMovieService movieService, ICastService castService, ILoggerAgent loggerAgent)
         {
             _movieService = movieService;
             _castService = castService;
             _logger = loggerAgent;
 
-            Loading = false;
             SearchCommand = new Command(async () => await Search());
             ClearCommand = new Command(() => { SearchInput = string.Empty; });
             GoToTrendingCommand = new Command(async () => await GoToTrending());
@@ -50,27 +40,14 @@ namespace BestPractices.ViewModels
 
         private async Task GoToTrending()
         {
-            Loading = true;
-            var movies = await _movieService.GetTrendingMovies();
-
-            var trendingViewModel = new TrendingMoviesViewModel(_movieService, _castService,_logger)
-            {
-                MovieList = new ObservableCollection<MovieList>(movies.ToModel())
-            };
-            var page = new TrendingMoviesPage
-            {
-                BindingContext = trendingViewModel
-            };
-            Loading = false;
-            await Application.Current.MainPage.Navigation.PushAsync(page);
+            //await Application.Current.MainPage.Navigation.PushAsync(page);
+            await NavigationService.NavigateToAsync<TrendingMoviesViewModel>();
         }
 
         private async Task Search()
         {
             if (!string.IsNullOrWhiteSpace(SearchInput))
             {
-                Loading = true;
-
                 //todo build in support for paging
                 var movies = await _movieService.SearchMovie(SearchInput, 1);
 
@@ -79,13 +56,7 @@ namespace BestPractices.ViewModels
                     SearchResults = new ObservableCollection<MovieSearch>(movies.ToModel())
                 };
 
-                var page = new SearchResultPage
-                {
-                    BindingContext = searchResultViewModel
-                };
-
-                Loading = false;
-                await Application.Current.MainPage.Navigation.PushAsync(page);
+                await NavigationService.NavigateToAsync<SearchResultViewModel>(searchResultViewModel);
             }
         }
     }

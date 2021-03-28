@@ -57,12 +57,7 @@ namespace BestPractices.ViewModels
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    var page = new DetailMoviePage
-                    {
-                        BindingContext = detailViewModel
-                    };
-
-                    await Application.Current.MainPage.Navigation.PushAsync(page);
+                    await NavigationService.NavigateToAsync<DetailMovieViewModel>(detailViewModel);
                 });
                 return Task.CompletedTask;
             }).ConfigureAwait(false);

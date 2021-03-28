@@ -24,19 +24,34 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\DetailMovieViewPage.xaml.cs">
+      <DependentUpon>DetailMovieViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SearchResultViewPage.xaml.cs">
+      <DependentUpon>SearchResultViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SearchViewPage.xaml.cs">
+      <DependentUpon>SearchViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TrendingMoviesViewPage.xaml.cs">
+      <DependentUpon>TrendingMoviesViewPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Views\CustomNavigationView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DetailMoviePage.xaml">
+    <EmbeddedResource Update="Views\DetailMovieViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SearchResultPage.xaml">
+    <EmbeddedResource Update="Views\SearchResultViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SearchView.xaml">
+    <EmbeddedResource Update="Views\SearchViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\TrendingMoviesPage.xaml">
+    <EmbeddedResource Update="Views\TrendingMoviesViewPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

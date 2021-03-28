@@ -27,8 +27,16 @@ namespace BestPractices.ViewModels
             set => SetProperty(ref _movieList, value);
         }
 
+        private bool _loading;
+        public bool Loading
+        {
+            get => _loading;
+            set => SetProperty(ref _loading, value);
+        }
+
         public TrendingMoviesViewModel(IMovieService movieService, ICastService castService, ILoggerAgent logger)
         {
+            Loading = false;
             _movieService = movieService;
             _castService = castService;
             _logger = logger;
@@ -40,11 +48,15 @@ namespace BestPractices.ViewModels
 
         private async Task LoadView()
         {
+            Loading = true;
+
             _logger.Information("Screen loads");
 
             var movies = await _movieService.GetTrendingMovies();
 
             MovieList = new ObservableCollection<MovieList>(movies.ToModel());
+
+            Loading = false;
         }
 
         private async Task NavigateToMovieDetails(MovieList selectedMovie)
@@ -72,12 +84,7 @@ namespace BestPractices.ViewModels
            {
                Device.BeginInvokeOnMainThread(async () =>
               {
-                  var page = new DetailMoviePage
-                  {
-                      BindingContext = detailViewModel
-                  };
-
-                  await Application.Current.MainPage.Navigation.PushAsync(page);
+                  await NavigationService.NavigateToAsync<DetailMovieViewModel>(detailViewModel);
               });
                return Task.CompletedTask;
            }).ConfigureAwait(false);

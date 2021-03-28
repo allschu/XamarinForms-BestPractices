@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace BestPractices.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SearchResultPage : ContentPage
+    public partial class SearchViewPage : ContentPage
     {
-        public SearchResultPage()
+        public SearchViewPage()
         {
             InitializeComponent();
         }

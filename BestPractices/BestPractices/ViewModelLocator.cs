@@ -16,6 +16,11 @@ namespace BestPractices
             Locator.Register<SearchResultViewModel>();
         }
 
+        public static T Resolve<T>() where T : class
+        {
+            return Locator.GetInstance<T>();
+        }
+
         public static TrendingMoviesViewModel TrendingMoviesViewModel => Locator.GetInstance<TrendingMoviesViewModel>();
         public static DetailMovieViewModel DetailMovieViewModel => Locator.GetInstance<DetailMovieViewModel>();
         public static SearchViewModel SearchViewModel => Locator.GetInstance<SearchViewModel>();

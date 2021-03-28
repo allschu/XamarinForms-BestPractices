@@ -27,37 +27,59 @@ namespace BestPractices.Services
         public NavigationService(ILoggerAgent loggerAgent)
         {
             _loggerAgent = loggerAgent ?? throw new ArgumentNullException(nameof(loggerAgent));
+            _loggerAgent.Information($"{nameof(NavigationService)}: initizaling");
         }
 
         public Task InitializeAsync()
         {
+            _loggerAgent.Information($"{nameof(NavigationService)}: InitializeAsync");
             return NavigateToAsync<SearchViewModel>();
         }
 
         public Task NavigateToAsync<TViewModel>() where TViewModel : ViewModelBase
         {
+            _loggerAgent.Information($"{nameof(NavigationService)}: InitializeAsync");
             return InternalNavigateToAsync(typeof(TViewModel), null);
         }
 
         public Task NavigateToAsync<TViewModel>(object parameter) where TViewModel : ViewModelBase
         {
-            throw new NotImplementedException();
+            return InternalNavigateToAsync(typeof(TViewModel), parameter);
         }
 
         public Task RemoveBackStackAsync()
         {
-            throw new NotImplementedException();
+            var mainPage = Application.Current.MainPage as CustomNavigationView;
+
+            if (mainPage != null)
+            {
+                mainPage.Navigation.RemovePage(
+                    mainPage.Navigation.NavigationStack[mainPage.Navigation.NavigationStack.Count - 2]);
+            }
+
+            return Task.FromResult(true);
         }
 
         public Task RemoveLastFromBackStackAsync()
         {
-            throw new NotImplementedException();
+            var mainPage = Application.Current.MainPage as CustomNavigationView;
+
+            if (mainPage != null)
+            {
+                for (int i = 0; i < mainPage.Navigation.NavigationStack.Count - 1; i++)
+                {
+                    var page = mainPage.Navigation.NavigationStack[i];
+                    mainPage.Navigation.RemovePage(page);
+                }
+            }
+
+            return Task.FromResult(true);
         }
 
         private async Task InternalNavigateToAsync(Type viewModelType, object parameter)
         {
             Page page = CreatePage(viewModelType, parameter);
-
+            
             if (page is MainPage)
             {
                 Application.Current.MainPage = new CustomNavigationView(page);
@@ -79,21 +101,36 @@ namespace BestPractices.Services
         private Page CreatePage(Type viewModelType, object parameter)
         {
             Type pageType = GetPageTypeForViewModel(viewModelType);
-            if (pageType == null)
+            Page page = Activator.CreateInstance(pageType) as Page;
+
+            if (parameter != null)
             {
-                throw new Exception($"Cannot locate page type for {viewModelType}");
+                var contentPage = (ContentPage)page;
+                contentPage.BindingContext = parameter;
+                return contentPage;
             }
 
-            Page page = Activator.CreateInstance(pageType) as Page;
             return page;
         }
 
+        /// <summary>
+        /// Retrieves the correct Views page from the Views
+        /// Watch out! this requires a specific naming convention between your views and viewmodels
+        /// </summary>
+        /// <param name="viewModelType"></param>
+        /// <returns>Specific view</returns>
         private Type GetPageTypeForViewModel(Type viewModelType)
         {
             var viewName = viewModelType.FullName.Replace("Model", string.Empty);
+            viewName = viewName.Insert(viewName.Length, "Page");
+
             var viewModelAssemblyName = viewModelType.GetTypeInfo().Assembly.FullName;
             var viewAssemblyName = string.Format(CultureInfo.InvariantCulture, "{0}, {1}", viewName, viewModelAssemblyName);
             var viewType = Type.GetType(viewAssemblyName);
+
+            if (viewType == null)
+                throw new ArgumentOutOfRangeException(nameof(viewModelType));
+
             return viewType;
         }
 

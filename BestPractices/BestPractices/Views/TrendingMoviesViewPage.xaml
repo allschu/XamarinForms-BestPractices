@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="BestPractices.Views.TrendingMoviesViewPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="clr-namespace:BestPractices"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    BindingContext="{Static app:ViewModelLocator.TrendingMoviesViewModel}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ItemTappedEventArgsConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label
+                Margin="0,20,0,0"
+                FontSize="Title"
+                HorizontalOptions="Center">
+                Trending Movies
+            </Label>
+            <BoxView
+                Margin="0,10,0,25"
+                HeightRequest="1"
+                Color="LightGray" />
+            <ActivityIndicator
+                Margin="0,50"
+                HorizontalOptions="Center"
+                IsRunning="True"
+                IsVisible="{Binding Loading}" />
+            <ListView HasUnevenRows="True" ItemsSource="{Binding MovieList}">
+                <ListView.Behaviors>
+                    <xct:EventToCommandBehavior
+                        Command="{Binding ItemClickedCommand}"
+                        EventArgsConverter="{StaticResource ItemTappedConverter}"
+                        EventName="ItemTapped" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Aspect="AspectFit"
+                                    HeightRequest="100"
+                                    Source="{Binding ImagePath}"
+                                    WidthRequest="100" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    FontSize="Large"
+                                    Text="{Binding Title}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
